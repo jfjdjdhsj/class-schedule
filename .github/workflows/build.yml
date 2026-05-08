@@ -31,7 +31,6 @@ jobs:
         run: ./gradlew assembleDebug
 
       - name: Restore signing files from secrets
-        if: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' && secrets.ANDROID_STORE_PASSWORD != '' && secrets.ANDROID_KEY_ALIAS != '' && secrets.ANDROID_KEY_PASSWORD != '' }}
         run: |
           mkdir -p keystore
           echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode > keystore/release-keystore.p12
@@ -44,7 +43,6 @@ jobs:
           EOF
 
       - name: Build Signed Release APK
-        if: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' && secrets.ANDROID_STORE_PASSWORD != '' && secrets.ANDROID_KEY_ALIAS != '' && secrets.ANDROID_KEY_PASSWORD != '' }}
         run: ./gradlew assembleRelease
 
       - name: Upload Debug APK
@@ -54,22 +52,10 @@ jobs:
           path: app/build/outputs/apk/debug/app-debug.apk
 
       - name: Upload Signed Release APK
-        if: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' && secrets.ANDROID_STORE_PASSWORD != '' && secrets.ANDROID_KEY_ALIAS != '' && secrets.ANDROID_KEY_PASSWORD != '' }}
         uses: actions/upload-artifact@v4
         with:
           name: release-apk
           path: app/build/outputs/apk/release/app-release.apk
-
-      - name: Build Unsigned Release APK (fallback)
-        if: ${{ secrets.ANDROID_KEYSTORE_BASE64 == '' || secrets.ANDROID_STORE_PASSWORD == '' || secrets.ANDROID_KEY_ALIAS == '' || secrets.ANDROID_KEY_PASSWORD == '' }}
-        run: ./gradlew assembleRelease
-
-      - name: Upload Unsigned Release APK (fallback)
-        if: ${{ secrets.ANDROID_KEYSTORE_BASE64 == '' || secrets.ANDROID_STORE_PASSWORD == '' || secrets.ANDROID_KEY_ALIAS == '' || secrets.ANDROID_KEY_PASSWORD == '' }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: release-apk-unsigned
-          path: app/build/outputs/apk/release/app-release-unsigned.apk
 
       - name: Cleanup signing files
         if: always()
