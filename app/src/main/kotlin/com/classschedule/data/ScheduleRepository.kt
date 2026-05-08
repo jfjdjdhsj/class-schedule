@@ -39,7 +39,7 @@ object ScheduleRepository {
         ScheduleItem(SchoolDay.THURSDAY, Period.PERIOD_7, Subject.ZU_ZHUANG),
         // 星期五
         ScheduleItem(SchoolDay.FRIDAY, Period.PERIOD_1, Subject.YU_WEN),
-        ScheduleItem(SchoolDay.FRIDAY, Period.PERIOD_2, null),
+        ScheduleItem(SchoolDay.FRIDAY, Period.PERIOD_2, Subject.TI_YU),
         ScheduleItem(SchoolDay.FRIDAY, Period.PERIOD_3, Subject.YING_YU),
         ScheduleItem(SchoolDay.FRIDAY, Period.PERIOD_4, Subject.YING_YU),
         ScheduleItem(SchoolDay.FRIDAY, Period.PERIOD_5, null),
