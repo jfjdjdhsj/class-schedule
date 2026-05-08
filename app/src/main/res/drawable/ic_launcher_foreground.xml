@@ -1,23 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="108dp"
-    android:height="108dp"
-    android:viewportWidth="108"
-    android:viewportHeight="108">
-    <!-- Book/calendar icon -->
-    <group
-        android:translateX="27"
-        android:translateY="27">
-        <!-- Grid lines for schedule -->
-        <path
-            android:fillColor="#FFFFFF"
-            android:pathData="M6,8h42v2H6zM6,18h42v2H6zM6,28h42v2H6zM6,38h42v2H6zM6,48h42v2H6z" />
-        <path
-            android:fillColor="#FFFFFF"
-            android:pathData="M8,6v46h2V6zM18,6v46h2V6zM28,6v46h2V6zM38,6v46h2V6zM48,6v46h2V6z" />
-        <!-- Top bar -->
-        <path
-            android:fillColor="#CBF0BD"
-            android:pathData="M4,4h46v4H4z" />
-    </group>
-</vector>
+<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="center"
+    android:src="@drawable-nodpi/ic_launcher_foreground" />
