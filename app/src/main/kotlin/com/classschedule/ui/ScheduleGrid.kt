@@ -9,21 +9,33 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.classschedule.data.ScheduleRepository
 import com.classschedule.model.Period
 import com.classschedule.model.SchoolDay
+import java.time.DayOfWeek
+import java.time.LocalDate
 
 @Composable
 fun ScheduleGrid(modifier: Modifier = Modifier) {
     val horizontalScrollState = rememberScrollState()
+    val todaySchoolDay = when (LocalDate.now().dayOfWeek) {
+        DayOfWeek.MONDAY -> SchoolDay.MONDAY
+        DayOfWeek.TUESDAY -> SchoolDay.TUESDAY
+        DayOfWeek.WEDNESDAY -> SchoolDay.WEDNESDAY
+        DayOfWeek.THURSDAY -> SchoolDay.THURSDAY
+        DayOfWeek.FRIDAY -> SchoolDay.FRIDAY
+        else -> null
+    }
 
     Column(modifier = modifier.horizontalScroll(horizontalScrollState)) {
         // Day-of-week header row
@@ -46,14 +58,30 @@ fun ScheduleGrid(modifier: Modifier = Modifier) {
 
             // Day headers
             SchoolDay.entries.forEach { day ->
+                val isToday = day == todaySchoolDay
                 Box(
-                    modifier = Modifier.width(60.dp).height(40.dp),
+                    modifier = Modifier
+                        .width(60.dp)
+                        .height(40.dp)
+                        .then(
+                            if (isToday) {
+                                Modifier
+                                    .clip(RoundedCornerShape(8.dp))
+                                    .background(MaterialTheme.colorScheme.primaryContainer)
+                            } else {
+                                Modifier
+                            }
+                        ),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
                         text = day.displayName,
                         style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.primary,
+                        color = if (isToday) {
+                            MaterialTheme.colorScheme.onPrimaryContainer
+                        } else {
+                            MaterialTheme.colorScheme.primary
+                        },
                         fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Center
                     )
