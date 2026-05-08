@@ -1,0 +1,10 @@
+# Local signing files
+key.properties
+keystore/
+
+# Gradle
+.gradle/
+local.properties
+
+# Build outputs
+**/build/
