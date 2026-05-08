@@ -7,7 +7,7 @@ enum class Subject(val displayName: String, val teacher: String) {
     TI_YU("体育", "王本清"),
     PS("PS", "刘国娟"),
     WANG_YE("网页", "吉敏"),
-    SHU_JU("数据", "裴文彪"),
+    SHU_JU("数媒", "裴文彪"),
     ZU_ZHUANG("组装", "吴巍"),
     SHE_YING("摄影", "于仓真"),
     XIN_LI("心理健康", "梁素佩");
