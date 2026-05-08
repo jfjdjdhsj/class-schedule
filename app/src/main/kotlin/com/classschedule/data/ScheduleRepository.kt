@@ -52,4 +52,14 @@ object ScheduleRepository {
 
     fun getSubjectForCell(day: SchoolDay, period: Period): Subject? =
         getItem(day, period)?.subject
+
+    fun getMorningSubjects(day: SchoolDay): List<Subject> =
+        schedule
+            .filter { it.day == day && !it.period.isAfternoon && it.subject != null }
+            .mapNotNull { it.subject }
+
+    fun getAfternoonSubjects(day: SchoolDay): List<Subject> =
+        schedule
+            .filter { it.day == day && it.period.isAfternoon && it.subject != null }
+            .mapNotNull { it.subject }
 }
