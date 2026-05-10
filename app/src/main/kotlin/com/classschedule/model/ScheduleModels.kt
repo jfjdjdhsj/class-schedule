@@ -21,14 +21,22 @@ enum class SchoolDay(val displayName: String, val shortName: String) {
     FRIDAY("星期五", "五");
 }
 
-enum class Period(val number: Int, val label: String, val isAfternoon: Boolean) {
-    PERIOD_1(1, "第1节", false),
-    PERIOD_2(2, "第2节", false),
-    PERIOD_3(3, "第3节", false),
-    PERIOD_4(4, "第4节", false),
-    PERIOD_5(5, "第5节", true),
-    PERIOD_6(6, "第6节", true),
-    PERIOD_7(7, "第7节", true);
+enum class Period(
+    val number: Int,
+    val label: String,
+    val isAfternoon: Boolean,
+    val startTime: String,
+    val endTime: String
+) {
+    PERIOD_1(1, "第1节", false, "8:20", "9:05"),
+    PERIOD_2(2, "第2节", false, "9:15", "10:00"),
+    PERIOD_3(3, "第3节", false, "10:20", "11:05"),
+    PERIOD_4(4, "第4节", false, "11:15", "12:00"),
+    PERIOD_5(5, "第5节", true, "15:10", "15:55"),
+    PERIOD_6(6, "第6节", true, "16:05", "16:50"),
+    PERIOD_7(7, "第7节", true, "17:00", "17:45");
+
+    val timeRange: String get() = "$startTime - $endTime"
 }
 
 data class ScheduleItem(

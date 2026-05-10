@@ -20,13 +20,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.classschedule.model.Period
 import com.classschedule.model.Subject
 import com.classschedule.theme.SubjectColors
 
 @Composable
 fun SubjectCard(
     subject: Subject?,
-    modifier: Modifier = Modifier
+    period: Period,
+    modifier: Modifier = Modifier,
+    onClick: ((Subject, Period) -> Unit)? = null
 ) {
     if (subject == null) {
         Card(
@@ -47,6 +50,7 @@ fun SubjectCard(
     val contentColor = if (isDark) Color.White else getSubjectPrimaryColor(subject)
 
     Card(
+        onClick = { onClick?.invoke(subject, period) },
         modifier = modifier
             .width(60.dp)
             .height(64.dp)
