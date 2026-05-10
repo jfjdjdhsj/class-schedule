@@ -133,9 +133,9 @@ fun ScheduleGrid(modifier: Modifier = Modifier) {
     selectedInfo?.let { (subject, period) ->
         AlertDialog(
             onDismissRequest = { selectedInfo = null },
-            shape = RoundedCornerShape(20.dp),
+            shape = RoundedCornerShape(16.dp),
             containerColor = MaterialTheme.colorScheme.surface,
-            tonalElevation = 6.dp,
+            tonalElevation = 2.dp,
             title = {
                 Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                     Text(
@@ -154,10 +154,11 @@ fun ScheduleGrid(modifier: Modifier = Modifier) {
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                     Card(
-                        shape = RoundedCornerShape(14.dp),
+                        shape = RoundedCornerShape(12.dp),
                         colors = CardDefaults.cardColors(
-                            containerColor = MaterialTheme.colorScheme.secondaryContainer
-                        )
+                            containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.65f)
+                        ),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
                     ) {
                         Column(
                             modifier = Modifier.padding(horizontal = 12.dp, vertical = 10.dp),
@@ -166,13 +167,13 @@ fun ScheduleGrid(modifier: Modifier = Modifier) {
                             Text(
                                 text = "上课：${period.startTime}",
                                 style = MaterialTheme.typography.titleMedium,
-                                color = MaterialTheme.colorScheme.onSecondaryContainer,
+                                color = MaterialTheme.colorScheme.onSurface,
                                 fontWeight = FontWeight.SemiBold
                             )
                             Text(
                                 text = "下课：${period.endTime}",
                                 style = MaterialTheme.typography.titleMedium,
-                                color = MaterialTheme.colorScheme.onSecondaryContainer,
+                                color = MaterialTheme.colorScheme.onSurface,
                                 fontWeight = FontWeight.SemiBold
                             )
                         }
