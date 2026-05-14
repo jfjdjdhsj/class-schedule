@@ -27,6 +27,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -40,11 +41,17 @@ import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
 private val periodTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("H:mm")
+private const val AUTO_POPUP_PREFS = "auto_popup_prefs"
+private const val LAST_POPUP_KEY = "last_popup_key"
 
 @Composable
 fun ScheduleGrid(modifier: Modifier = Modifier) {
+    val context = LocalContext.current
     val horizontalScrollState = rememberScrollState()
     var selectedInfo by remember { mutableStateOf<Pair<Subject, Period>?>(null) }
+    val autoPopupPrefs = remember(context) {
+        context.getSharedPreferences(AUTO_POPUP_PREFS, android.content.Context.MODE_PRIVATE)
+    }
     val todaySchoolDay = when (LocalDate.now().dayOfWeek) {
         DayOfWeek.MONDAY -> SchoolDay.MONDAY
         DayOfWeek.TUESDAY -> SchoolDay.TUESDAY
@@ -67,7 +74,12 @@ fun ScheduleGrid(modifier: Modifier = Modifier) {
         if (currentPeriod != null) {
             val currentSubject = ScheduleRepository.getSubjectForCell(todaySchoolDay, currentPeriod)
             if (currentSubject != null) {
-                selectedInfo = currentSubject to currentPeriod
+                val currentPopupKey = "${LocalDate.now()}-${currentPeriod.number}"
+                val lastPopupKey = autoPopupPrefs.getString(LAST_POPUP_KEY, null)
+                if (lastPopupKey != currentPopupKey) {
+                    selectedInfo = currentSubject to currentPeriod
+                    autoPopupPrefs.edit().putString(LAST_POPUP_KEY, currentPopupKey).apply()
+                }
             }
         }
         hasAutoShownCurrentSubject = true
