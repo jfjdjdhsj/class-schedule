@@ -19,6 +19,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -47,6 +48,25 @@ fun ScheduleGrid(modifier: Modifier = Modifier) {
         DayOfWeek.THURSDAY -> SchoolDay.THURSDAY
         DayOfWeek.FRIDAY -> SchoolDay.FRIDAY
         else -> null
+    }
+
+    var hasAutoShownCurrentSubject by remember { mutableStateOf(false) }
+
+    LaunchedEffect(todaySchoolDay, hasAutoShownCurrentSubject) {
+        if (hasAutoShownCurrentSubject || todaySchoolDay == null) return@LaunchedEffect
+        val now = java.time.LocalTime.now()
+        val currentPeriod = Period.entries.firstOrNull { period ->
+            val start = java.time.LocalTime.parse(period.startTime)
+            val end = java.time.LocalTime.parse(period.endTime)
+            !now.isBefore(start) && !now.isAfter(end)
+        }
+        if (currentPeriod != null) {
+            val currentSubject = ScheduleRepository.getSubjectForCell(todaySchoolDay, currentPeriod)
+            if (currentSubject != null) {
+                selectedInfo = currentSubject to currentPeriod
+            }
+        }
+        hasAutoShownCurrentSubject = true
     }
 
     Column(modifier = modifier.horizontalScroll(horizontalScrollState)) {
