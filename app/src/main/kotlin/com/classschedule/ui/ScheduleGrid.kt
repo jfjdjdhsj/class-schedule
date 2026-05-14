@@ -36,6 +36,10 @@ import com.classschedule.model.SchoolDay
 import com.classschedule.model.Subject
 import java.time.DayOfWeek
 import java.time.LocalDate
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
+
+private val periodTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("H:mm")
 
 @Composable
 fun ScheduleGrid(modifier: Modifier = Modifier) {
@@ -54,10 +58,10 @@ fun ScheduleGrid(modifier: Modifier = Modifier) {
 
     LaunchedEffect(todaySchoolDay, hasAutoShownCurrentSubject) {
         if (hasAutoShownCurrentSubject || todaySchoolDay == null) return@LaunchedEffect
-        val now = java.time.LocalTime.now()
+        val now = LocalTime.now()
         val currentPeriod = Period.entries.firstOrNull { period ->
-            val start = java.time.LocalTime.parse(period.startTime)
-            val end = java.time.LocalTime.parse(period.endTime)
+            val start = LocalTime.parse(period.startTime, periodTimeFormatter)
+            val end = LocalTime.parse(period.endTime, periodTimeFormatter)
             !now.isBefore(start) && !now.isAfter(end)
         }
         if (currentPeriod != null) {
