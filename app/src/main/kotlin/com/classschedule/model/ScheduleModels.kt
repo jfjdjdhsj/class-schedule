@@ -1,7 +1,7 @@
 package com.classschedule.model
 
 enum class Subject(val displayName: String, val teacher: String) {
-    YU_WEN("语文", "孙敏"),
+    YU_WEN("语文", "孙傲"),
     SHU_XUE("数学", "李铭"),
     YING_YU("英语", "陶舒冉"),
     TI_YU("体育", "王本清"),
